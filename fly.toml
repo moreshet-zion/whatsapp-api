@@ -1,0 +1,38 @@
+# fly.toml
+app = "codechat"
+primary_region = "fra"
+
+[build]
+  # Uses the repo's Dockerfile (no changes needed)
+
+[env]
+  # The server listens on 8083 in this project
+  PORT = "8083"
+
+[[mounts]]
+  source = "instances"
+  destination = "/codechat/instances"
+
+[http_service]
+  internal_port = 8083
+  force_https = true
+  auto_stop_machines = false         # Keep machine alive to avoid WS drop/QR churn
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 50
+    soft_limit = 40
+
+
+  [[http_service.checks]]
+    interval = "15s"
+    timeout = "5s"
+    grace_period = "30s"
+    method = "GET"
+    path = "/"
+    # If the repo has a dedicated health route (e.g., /health), switch to that.
+
+[vm]
+  size = "shared-cpu-1x"  # bump to 512MB if you hit OOM: "shared-cpu-1x@512mb"
