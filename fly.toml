@@ -29,10 +29,10 @@ primary_region = "fra"
   [[http_service.checks]]
     interval = "15s"
     timeout = "5s"
-    grace_period = "30s"
+    grace_period = "120s"
     method = "GET"
     path = "/"
     # If the repo has a dedicated health route (e.g., /health), switch to that.
 
 [vm]
-  size = "shared-cpu-1x"  # bump to 512MB if you hit OOM: "shared-cpu-1x@512mb"
+  size = "shared-cpu-1x@1024mb"
