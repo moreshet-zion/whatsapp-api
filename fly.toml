@@ -34,5 +34,7 @@ primary_region = "fra"
     path = "/"
     # If the repo has a dedicated health route (e.g., /health), switch to that.
 
-[vm]
-  size = "shared-cpu-1x@1024mb"
+[[vm]]
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 512
